@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My IDE</title>
+ 
+  <style>
+    /* Reset some default styles */
+body,
+h1,
+h2,
+textarea,
+pre,
+button {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Set up basic layout */
+body {
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header,
+main,
+footer {
+  padding: 1rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.editor {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  background-color: #333;
+  color: #fff;
+}
+
+.output {
+  flex: 1;
+  padding-left: 1rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+}
+
+pre {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem;
+  overflow-y: auto;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0062cc;
+}
+
+/* Add some interactive animations */
+button:active {
+  transform: scale(0.95);
+}
+
+textarea:focus {
+  border: 2px solid #007bff;
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>EKCS Python IDE</h1>
+  </header>
+  <main>
+    <div class="editor">
+      <textarea id="codeEditor" placeholder="Write your code here..."></textarea>
+    </div>
+    <div class="output">
+      <h2>Output Terminal</h2>
+      <pre id="outputTerminal"></pre>
+    </div>
+  </main>
+  <footer>
+    <button id="runButton">Run</button>
+  </footer>
+<script>
+    document.getElementById("runButton").addEventListener("click", function() {
+  var code = document.getElementById("codeEditor").value; // Get code from textarea
+
+  fetch("/send", {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({code})}).then((res)=>{
+    return res.json()
+  }).then((fres)=>{
+      var output = document.getElementById("outputTerminal"); // Get output terminal element
+      output.textContent = fres.sol
+  })
+});
+
+</script>
+</body>
+
+</html>
